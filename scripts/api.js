@@ -10,17 +10,17 @@ const api = (function() {
     $.getJSON(ITEMS_URL, callback);
   };
 
-  const createItem = function(name, callback) {
+  const createItem = function(name, success, error) {
     let newItem = { name };
     let jsonData = JSON.stringify(newItem);
     const data = {
       method: 'POST',
       contentType: 'application/json',
-      data: jsonData,
-      success: callback,
-      error: (response) => console.log(response.responseText)
+      data: jsonData
     };
-    $.ajax(ITEMS_URL, data);
+    $.ajax(ITEMS_URL, data)
+      .done(success)
+      .fail(error);
   };
 
   const updateItem = function(id, updateData, callback) {

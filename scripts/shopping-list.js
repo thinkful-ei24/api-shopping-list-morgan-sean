@@ -34,9 +34,19 @@ const shoppingList = (function(){
     const items = shoppingList.map((item) => generateItemElement(item));
     return items.join('');
   }
+
+  const prependErrorMessage = function() {
+    // Generate HTML for the error message
+    // Prepend the HTML to the top of page
+  };
   
   
   function render() {
+    // Remove any error messages
+    if (store.displayError === true) {
+      prependErrorMessage();
+    }
+
     // Filter item list if store prop is true by item.checked === false
     let items = store.items;
     if (store.hideCheckedItems) {
@@ -63,12 +73,19 @@ const shoppingList = (function(){
       const newItemName = $('.js-shopping-list-entry').val();
       $('.js-shopping-list-entry').val('');
 
-      api.createItem(newItemName, (response) => {
+      const onSuccess = (response) => {
         store.addItem(response);
         render();
-      });
-    });
-  }
+      };
+
+      const onError = (response) => {
+        store.displayError = true;
+        console.log(response.responseText);
+      };
+
+      api.createItem(newItemName, onSuccess, onError);
+  });
+}
   
   function getItemIdFromElement(item) {
     return $(item)

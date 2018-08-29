@@ -49,3 +49,13 @@ button:hover {
 .shopping-item__checked {
   text-decoration: line-through;
 }
+
+.error-alert {
+  /* border-top-color:  */
+  background-color: rgba(220, 53, 69, 0.70);
+  border: 1px #640000 solid;
+  border-radius: 5px;
+  width: 350px;
+  margin-bottom: 10px;
+  padding: 5px;
+}

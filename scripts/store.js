@@ -36,7 +36,7 @@ const store = (function(){
     items,
     hideCheckedItems: false,
     searchTerm: '',
-
+    displayError: false,
     addItem,
     findById,
     toggleCheckedFilter,
