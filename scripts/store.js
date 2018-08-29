@@ -17,6 +17,12 @@ const store = (function(){
     Object.assign(match, newData);
   };
 
+  const findAndDelete = function(id) {
+    console.log(this.items);
+    let index = this.items.findIndex(findById(id));
+    console.log(index);
+    this.items.splice(index, 1);
+  };
 
   const toggleCheckedFilter = function() {
     this.hideCheckedItems = !this.hideCheckedItems;
@@ -35,7 +41,8 @@ const store = (function(){
     findById,
     toggleCheckedFilter,
     setSearchTerm,
-    findAndUpdate
+    findAndUpdate,
+    findAndDelete
   };
   
 }());
