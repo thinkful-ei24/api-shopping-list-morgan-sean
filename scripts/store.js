@@ -17,15 +17,6 @@ const store = (function(){
     Object.assign(match, ...newData);
   };
 
-  const findAndUpdateName = function(id, name) {
-    try {
-      Item.validateName(name);
-      const item = this.findById(id);
-      item.name = name;
-    } catch(e) {
-      console.log('Cannot update name: ' + e.message);
-    }
-  };
 
   const toggleCheckedFilter = function() {
     this.hideCheckedItems = !this.hideCheckedItems;
@@ -42,7 +33,6 @@ const store = (function(){
 
     addItem,
     findById,
-    findAndUpdateName,
     toggleCheckedFilter,
     setSearchTerm,
     findAndUpdate
