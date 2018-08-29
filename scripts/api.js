@@ -23,15 +23,16 @@ const api = (function() {
       .fail(error);
   };
 
-  const updateItem = function(id, updateData, callback) {
-    $.ajax({
+  const updateItem = function(id, updateData, success, error) {
+    const data = {
       url: `${ITEMS_URL}/${id}`,
       method: 'PATCH',
       contentType: 'application/json',
-      data: JSON.stringify(updateData),
-      success: callback,
-      error: (response) => console.log(response.responseText)
-    });
+      data: JSON.stringify(updateData)
+    };
+    $.ajax(data)
+      .done(success)
+      .fail(error); 
   };
 
   const deleteItem = function(id, callback) {

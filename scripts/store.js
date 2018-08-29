@@ -5,6 +5,7 @@
 // eslint-disable-next-line no-unused-vars
 const store = (function(){
   const items = [];
+  let errorMessage = 'Item must be one character or longer.';
 
   const addItem = function(item) {
     items.push(item);
@@ -37,6 +38,7 @@ const store = (function(){
     hideCheckedItems: false,
     searchTerm: '',
     displayError: false,
+    errorMessage,
     addItem,
     findById,
     toggleCheckedFilter,

@@ -35,18 +35,14 @@ const shoppingList = (function(){
     return items.join('');
   }
 
-  const prependErrorMessage = function() {
+  const generateErrorMessage = function() {
     // Generate HTML for the error message
     // Prepend the HTML to the top of page
+    return `<div class="error-alert">${store.errorMessage}</div>`;
   };
   
   
   function render() {
-    // Remove any error messages
-    if (store.displayError === true) {
-      prependErrorMessage();
-    }
-
     // Filter item list if store prop is true by item.checked === false
     let items = store.items;
     if (store.hideCheckedItems) {
@@ -60,8 +56,13 @@ const shoppingList = (function(){
   
     // render the shopping list in the DOM
     console.log('`render` ran');
-    const shoppingListItemsString = generateShoppingItemsString(items);
+    let shoppingListItemsString = generateShoppingItemsString(items);
   
+    // Handle error message
+    if (store.displayError === true) {
+      shoppingListItemsString = generateErrorMessage() + shoppingListItemsString;
+    }
+
     // insert that HTML into the DOM
     $('.js-shopping-list').html(shoppingListItemsString);
   }
@@ -74,13 +75,14 @@ const shoppingList = (function(){
       $('.js-shopping-list-entry').val('');
 
       const onSuccess = (response) => {
+        store.displayError = false;
         store.addItem(response);
         render();
       };
 
       const onError = (response) => {
         store.displayError = true;
-        console.log(response.responseText);
+        render();
       };
 
       api.createItem(newItemName, onSuccess, onError);
@@ -123,11 +125,19 @@ const shoppingList = (function(){
       event.preventDefault();
       const id = getItemIdFromElement(event.currentTarget);
       const itemName = $(event.currentTarget).find('.shopping-item').val();
-      api.updateItem(id, { name: itemName }, (response) => {
+
+      const onSuccess = (response) => {
+        store.displayError = false;
         store.findAndUpdate(id, { name: itemName });
         render();
-      });
-      
+      };
+
+      const onError = (response) => {
+        store.displayError = true;
+        render();
+      };
+
+      api.updateItem(id, {name: itemName}, onSuccess, onError);
     });
   }
   
