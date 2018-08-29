@@ -14,7 +14,7 @@ const store = (function(){
 
   const findAndUpdate = function(id, newData) {
     let match = this.items.find((item) => (item.id === id));
-    Object.assign(match, ...newData);
+    Object.assign(match, newData);
   };
 
 
